@@ -76,26 +76,21 @@ betCompleteButton.addEventListener('click', () => {
 function updateBettingArea() {
   // 배팅 금액 기준으로 내림차순 정렬
   users.sort((a, b) => b.betAmount - a.betAmount);
-
   bettingArea.innerHTML = ''; // 기존 배팅 정보 삭제
-
   users.forEach(user => {
     const userBetElement = document.createElement('div');
     userBetElement.classList.add('user-bet');
-
     // 이미지, 이름, 배팅 금액을 수평으로 배치
     userBetElement.innerHTML = `
       <img src="${user.icon}" alt="${user.name} 아이콘">
       <span>${user.name}</span>
       <span>${user.betAmount} 코인</span>
     `;
-
-    // 총액 정보 추가
+    bettingArea.appendChild(userBetElement);
+    // 총액 정보 추가 (이미지, 이름, 배팅 금액과 동일한 길이로 만들기 위해 userBetElement 아래에 추가)
     const totalCoinsSpan = document.createElement('span');
     totalCoinsSpan.textContent = `총액: ${userCoins} 코인`;
-    userBetElement.appendChild(totalCoinsSpan);
-
-    bettingArea.appendChild(userBetElement);
+    bettingArea.appendChild(totalCoinsSpan);
   });
 }
 
