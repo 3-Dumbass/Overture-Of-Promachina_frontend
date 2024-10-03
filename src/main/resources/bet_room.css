@@ -1,0 +1,96 @@
+body {
+  margin: 0;
+  font-family: sans-serif;
+}
+
+header {
+  background-color: #f0f0f0;
+  padding: 20px;
+  text-align: center;
+  margin-bottom: 10px;
+}
+
+header h1 {
+  font-size: 2em;
+  margin-bottom: 10px;
+}
+
+.container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  height: calc(100vh - 80px);
+  width: 100vw;
+}
+
+#betting-area {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  width: 300px;
+}
+
+.user-bet {
+  display: flex;
+  align-items: center;
+  margin-bottom: 10px;
+}
+
+.user-bet img {
+  width: 50px;
+  height: 50px;
+  margin-right: 10px;
+}
+
+#user-info {
+  text-align: center;
+  margin-top: 20px;
+}
+
+#betting-panel,
+#result-panel {
+  margin-top: 20px;
+}
+
+footer {
+  background-color: #f0f0f0;
+  padding: 20px;
+  text-align: center;
+  margin-top: 20px;
+}
+
+.bet-buttons {
+  display: flex;
+  justify-content: space-between;
+  /* 버튼 간격 조정 */
+}
+
+.bet-buttons button {
+  flex: 1;
+  /* 버튼 넓이를 동일하게 */
+}
+
+.user-bet {
+  display: flex;
+  align-items: center;
+  margin-bottom: 10px;
+  flex-direction: row;
+  /* 유저 정보를 가로로 배치 */
+}
+
+.user-bet img {
+  width: 50px;
+  height: 50px;
+  margin-right: 10px;
+}
+
+.user-bet span {
+  margin-right: 10px;
+  /* 이름과 배팅 금액 사이 간격 */
+}
+
+.user-bet span:last-child {
+  margin-left: auto;
+  /* 잔액을 오른쪽으로 정렬 */
+}
