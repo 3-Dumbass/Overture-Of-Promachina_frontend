@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+  <title>방 생성 및 입장</title>
+  <link rel="stylesheet" href="room.css">
+</head>
+
+<body>
+  <header>
+    <h1>나만의 포털 페이지</h1>
+  </header>
+
+  <div class="container">
+    <h2>방 생성</h2>
+    <form id="create-room-form">
+      <div>
+        <label for="room-name">방 이름:</label>
+        <input type="text" id="room-name" name="room-name" required>
+      </div>
+      <button type="submit">생성하기</button>
+    </form>
+
+    <h2>방 목록</h2>
+    <div id="room-list"></div>
+    <div id="pagination"></div> <!-- 숫자 버튼을 표시할 div 추가 -->
+  </div>
+
+  <footer>
+    <p>
+      문의: <a href="mailto:your.email@example.com">your.email@example.com</a>
+    </p>
+    <ul class="social-links">
+      <li><a href="https://twitter.com/your_twitter_handle" target="_blank">Twitter</a></li>
+      <li><a href="https://github.com/your_github_handle" target="_blank">GitHub</a></li>
+    </ul>
+  </footer>
+
+  <script src="room.js"></script>
+</body>
+
+</html>
