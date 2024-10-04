@@ -18,7 +18,7 @@ signupForm.addEventListener("submit", (event) => {
   // ...
 
   // 회원가입 성공 시
-  if (/* 회원가입 성공 조건 */) {
+  if (null/* 회원가입 성공 조건 */) {
     // 회원가입 성공 후 처리 (예: 로그인 페이지로 이동)
     // ...
   } else {
