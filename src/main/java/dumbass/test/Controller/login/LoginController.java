@@ -1,6 +1,7 @@
 package dumbass.test.Controller.login;
 
 import dumbass.test.Controller.login.dto.LoginDto;
+import dumbass.test.dto.UserDto;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -28,10 +29,13 @@ public class LoginController {
         log.info("Login Password: " + loginDto.getPassword());
 
 
-
-
-
         return "redirect:/main-form";
+    }
+
+    /** 로그인 api 연결부 */
+    public UserDto login_api(){
+
+        return null;
     }
 
 }
