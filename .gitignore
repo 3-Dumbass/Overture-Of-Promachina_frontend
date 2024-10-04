@@ -37,3 +37,4 @@ out/
 .vscode/
 
 resources/*.yml
+/src/main/resources/application.yml
