@@ -2,22 +2,28 @@
 <html xmlns:th="http://www.thymeleaf.org">
 
   <head>
-    <meta charset="UTF-8">
-    <title>내 포털 페이지</title>
-    <link rel="stylesheet" href="../static/css/main.css">
+    <title>방 생성 및 입장</title>
+    <link rel="stylesheet" href="../static/css/room.css">
   </head>
 
   <body>
     <header>
       <h1>나만의 포털 페이지</h1>
-      <p>다양한 웹사이트로 쉽게 이동하세요!</p>
-      <ul class="user-info">
-        <li><a href="/login-form" class="button">로그인</a></li>
-        <li><a href="#" class="button">회원가입</a></li>
-      </ul>
     </header>
 
     <div class="container">
+      <h2>방 생성</h2>
+      <form id="create-room-form">
+        <div>
+          <label for="room-name">방 이름:</label>
+          <input type="text" id="room-name" name="room-name" required>
+        </div>
+        <button type="submit">생성하기</button>
+      </form>
+
+      <h2>방 목록</h2>
+      <div id="room-list"></div>
+      <div id="pagination"></div> <!-- 숫자 버튼을 표시할 div 추가 -->
     </div>
 
     <footer>
@@ -30,7 +36,7 @@
       </ul>
     </footer>
 
-    <script src="script.js"></script>
+    <script src="room.js"></script>
   </body>
 
 </html>
