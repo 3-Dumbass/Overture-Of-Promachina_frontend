@@ -12,6 +12,6 @@ public class mainController {
     public String main_form(){
 
         log.info("mainform");
-        return "index";
+        return "mainForm";
     }
 }
