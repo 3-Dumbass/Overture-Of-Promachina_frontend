@@ -30,7 +30,16 @@
       </ul>
     </footer>
 
-    <script src="js/script.js"></script>
+    <script src="js/main.js"></script>
+
+    <script>
+      fetch('/session')
+              .then(response => response.json())
+              .then(SessionDto => {
+                alert(SessionDto.user.user_id); // 서버에서 전달받은 username 출력
+              });
+    </script>
+
   </body>
 
 </html>

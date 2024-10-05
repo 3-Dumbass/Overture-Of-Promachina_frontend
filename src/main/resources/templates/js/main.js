@@ -1,208 +1,83 @@
-/*
-	Paradigm Shift by HTML5 UP
-	html5up.net | @ajlkn
-	Free for personal and commercial use under the CCA 3.0 license (html5up.net/license)
-*/
+let isLoggedIn = false; // 로그인 상태 초기값은 false
+let username = ""; // 닉네임 저장 변수
+let coins = 0; // 잔여 코인 수 저장 변수
 
-(function($) {
+const sites = [
+  {
+    image: "images/site1.jpg",
+    title: "사이트 1",
+    description: "사이트 1에 대한 간단한 설명입니다."
+  },
+  {
+    image: "images/site2.jpg",
+    title: "사이트 2",
+    description: "사이트 2에 대한 간단한 설명입니다."
+  },
+  // 여기에 사이트 정보를 더 추가합니다.
+];
 
-	var	$window = $(window),
-		$body = $('body');
+const container = document.querySelector(".container");
 
-	// Breakpoints.
-		breakpoints({
-			default:   ['1681px',   null       ],
-			xlarge:    ['1281px',   '1680px'   ],
-			large:     ['981px',    '1280px'   ],
-			medium:    ['737px',    '980px'    ],
-			small:     ['481px',    '736px'    ],
-			xsmall:    ['361px',    '480px'    ],
-			xxsmall:   [null,       '360px'    ]
-		});
+sites.forEach(site => {
+  const siteBlock = document.createElement("div");
+  siteBlock.classList.add("site-block");
 
-	// Play initial animations on page load.
-		$window.on('load', function() {
-			window.setTimeout(function() {
-				$body.removeClass('is-preload');
-			}, 100);
-		});
+  const image = document.createElement("img");
+  image.src = site.image;
+  image.alt = site.title;
+  siteBlock.appendChild(image);
 
-	// Hack: Enable IE workarounds.
-		if (browser.name == 'ie')
-			$body.addClass('is-ie');
+  const title = document.createElement("h3");
+  title.textContent = site.title;
+  siteBlock.appendChild(title);
 
-	// Mobile?
-		if (browser.mobile)
-			$body.addClass('is-mobile');
+  const description = document.createElement("p");
+  description.textContent = site.description;
+  siteBlock.appendChild(description);
 
-	// Scrolly.
-		$('.scrolly')
-			.scrolly({
-				offset: 100
-			});
+  container.appendChild(siteBlock);
+});
 
-	// Polyfill: Object fit.
-		if (!browser.canUse('object-fit')) {
+// 로그인 성공 시 실행되는 함수 예시
+function handleLoginSuccess(user) {
+  isLoggedIn = true;
+  username = user.username;
+  coins = user.coins;
 
-			$('.image[data-position]').each(function() {
+  // user-info 요소를 가져옵니다.
+  const userInfo = document.querySelector(".user-info");
 
-				var $this = $(this),
-					$img = $this.children('img');
+  // 로그인/회원가입 버튼을 닉네임과 잔여 코인 정보로 바꿉니다.
+  userInfo.innerHTML = `
+    <li>
+      <span>
+        ${username}
+      </span>
+    </li>
+    <li>
+      <span>
+        잔여 코인: ${coins}
+      </span>
+    </li>
+      <span>
+        잔여 칩: ${chip}
+      </span>
+    </li>
+  `;
+}
 
-				// Apply img as background.
-					$this
-						.css('background-image', 'url("' + $img.attr('src') + '")')
-						.css('background-position', $this.data('position'))
-						.css('background-size', 'cover')
-						.css('background-repeat', 'no-repeat');
+// 로그아웃 시 실행되는 함수 예시
+function handleLogout() {
+  isLoggedIn = false;
+  username = "";
+  coins = 0;
 
-				// Hide img.
-					$img
-						.css('opacity', '0');
+  // user-info 요소를 가져옵니다.
+  const userInfo = document.querySelector(".user-info");
 
-			});
-
-			$('.gallery > a').each(function() {
-
-				var $this = $(this),
-					$img = $this.children('img');
-
-				// Apply img as background.
-					$this
-						.css('background-image', 'url("' + $img.attr('src') + '")')
-						.css('background-position', 'center')
-						.css('background-size', 'cover')
-						.css('background-repeat', 'no-repeat');
-
-				// Hide img.
-					$img
-						.css('opacity', '0');
-
-			});
-
-		}
-
-	// Gallery.
-		$('.gallery')
-			.on('click', 'a', function(event) {
-
-				var $a = $(this),
-					$gallery = $a.parents('.gallery'),
-					$modal = $gallery.children('.modal'),
-					$modalImg = $modal.find('img'),
-					href = $a.attr('href');
-
-				// Not an image? Bail.
-					if (!href.match(/\.(jpg|gif|png|mp4)$/))
-						return;
-
-				// Prevent default.
-					event.preventDefault();
-					event.stopPropagation();
-
-				// Locked? Bail.
-					if ($modal[0]._locked)
-						return;
-
-				// Lock.
-					$modal[0]._locked = true;
-
-				// Set src.
-					$modalImg.attr('src', href);
-
-				// Set visible.
-					$modal.addClass('visible');
-
-				// Focus.
-					$modal.focus();
-
-				// Delay.
-					setTimeout(function() {
-
-						// Unlock.
-							$modal[0]._locked = false;
-
-					}, 600);
-
-			})
-			.on('click', '.modal', function(event) {
-
-				var $modal = $(this),
-					$modalImg = $modal.find('img');
-
-				// Locked? Bail.
-					if ($modal[0]._locked)
-						return;
-
-				// Already hidden? Bail.
-					if (!$modal.hasClass('visible'))
-						return;
-
-				// Stop propagation.
-					event.stopPropagation();
-
-				// Lock.
-					$modal[0]._locked = true;
-
-				// Clear visible, loaded.
-					$modal
-						.removeClass('loaded')
-
-				// Delay.
-					setTimeout(function() {
-
-						$modal
-							.removeClass('visible')
-
-						setTimeout(function() {
-
-							// Clear src.
-								$modalImg.attr('src', '');
-
-							// Unlock.
-								$modal[0]._locked = false;
-
-							// Focus.
-								$body.focus();
-
-						}, 475);
-
-					}, 125);
-
-			})
-			.on('keypress', '.modal', function(event) {
-
-				var $modal = $(this);
-
-				// Escape? Hide modal.
-					if (event.keyCode == 27)
-						$modal.trigger('click');
-
-			})
-			.on('mouseup mousedown mousemove', '.modal', function(event) {
-
-				// Stop propagation.
-					event.stopPropagation();
-
-			})
-			.prepend('<div class="modal" tabIndex="-1"><div class="inner"><img src="" /></div></div>')
-				.find('img')
-					.on('load', function(event) {
-
-						var $modalImg = $(this),
-							$modal = $modalImg.parents('.modal');
-
-						setTimeout(function() {
-
-							// No longer visible? Bail.
-								if (!$modal.hasClass('visible'))
-									return;
-
-							// Set loaded.
-								$modal.addClass('loaded');
-
-						}, 275);
-
-					});
-
-})(jQuery);
+  // 로그인/회원가입 버튼으로 돌려놓습니다.
+  userInfo.innerHTML = `
+    <li><a href="#" class="button">로그인</a></li>
+    <li><a href="#" class="button">회원가입</a></li>
+  `;
+}
