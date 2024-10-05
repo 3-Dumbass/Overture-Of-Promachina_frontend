@@ -1,4 +1,4 @@
-function test(){
+async function test(){
 
     // 아래는 시도했던 코드
 
@@ -18,4 +18,5 @@ function test(){
         .then(SessionDto => {
             alert(SessionDto.user.user_id); // 서버에서 전달받은 username 출력
         });
+
 }
