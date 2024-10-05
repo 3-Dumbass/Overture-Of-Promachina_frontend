@@ -129,3 +129,6 @@ function resetGame() {
 
 // 초기화: 유저 코인 정보 가져오기
 getUserCoins();
+
+window.onload=function (){
+}

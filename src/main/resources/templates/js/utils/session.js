@@ -20,3 +20,9 @@ async function test(){
         });
 
 }
+
+async function getSession(){
+    let response = await fetch('/session');
+    let json = await response.json();
+    return json.user.user_id;
+}
