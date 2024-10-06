@@ -48,7 +48,7 @@ public class LoginController {
     }
 
 
-    /** 로그인 api 연결부 */
+    /** 로그인 시 아이디 확인 */
     public UserDto login_api(LoginDto loginDto){
         String url = "http://localhost:8081/api/login/login";
 
@@ -58,10 +58,23 @@ public class LoginController {
         return userDto;
     }
 
+
+    /** api에서 User정보 조회 */
     public UserDto user_api(UserDto userDto){
-        String url = "http://localhost:8081/user/get";
+
         RestTemplate restTemplate = new RestTemplate();
 
+        UserDto user_data;
+        String image_url = "http://localhost:8081/api/user/image-select";
+        user_data = restTemplate.postForEntity(image_url, userDto, UserDto.class).getBody();
+
+        String chip_url = "http://localhost:8081/api/chip/select";
+        user_data = restTemplate.postForEntity(chip_url, user_data, UserDto.class).getBody();
+
+        String account_url = "http://localhost:8081/api/account/select";
+        user_data = restTemplate.postForEntity(account_url, user_data, UserDto.class).getBody();
+
+        return user_data;
     }
 
 
