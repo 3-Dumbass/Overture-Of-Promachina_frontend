@@ -57,7 +57,7 @@ public class LoginController {
 
         log.info("session Call");
         UserDto userDto = (UserDto) session.getAttribute("id");
-        return ResponseEntity.ok(new SessionDto(userDto));
+        return ResponseEntity.ok(new SessionDto(userDto, null));
     }
 
 

@@ -8,4 +8,5 @@ import lombok.*;
 @AllArgsConstructor
 public class SessionDto {
     private UserDto user;
+    private Long room_id;
 }

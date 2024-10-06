@@ -18,8 +18,8 @@ public class gameRoomController {
     }
 
 
-    @PostMapping("/betting-room-id")
-    public String betting_room_id(HttpSession session, Long room_id) {
+    @PostMapping("/room-id")
+    public String room_id(HttpSession session, Long room_id) {
         session.setAttribute("room_id", room_id);
 
         return "betRoomForm";
