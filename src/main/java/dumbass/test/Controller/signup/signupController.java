@@ -73,10 +73,10 @@ public class signupController {
         signupDto = restTemplate.postForEntity(url, signupDto, SignupDto.class).getBody();
 
         if (account_add(signupDto)){
-            return "mainForm";
+            return "redirect:/mainForm";
         }
         else{
-            return "signupForm";
+            return "redirect:/signupForm";
         }
     }
 

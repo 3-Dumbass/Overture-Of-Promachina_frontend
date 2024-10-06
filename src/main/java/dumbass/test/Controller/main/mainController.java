@@ -35,7 +35,10 @@ public class mainController {
         Long coin = 0L;
         for(AccountDto accountDto : userDto.getAccount()) {
             RestTemplate restTemplate = new RestTemplate();
-            coin += restTemplate.postForEntity(wallet_api, accountDto.getAccountKey(), Long.class).getBody();
+            Long price = restTemplate.postForEntity(wallet_api, accountDto.getAccountKey(), Long.class).getBody();
+            if(price != null){
+                coin += price;
+            }
         }
 
         return coin;
