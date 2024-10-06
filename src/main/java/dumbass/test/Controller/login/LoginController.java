@@ -62,6 +62,7 @@ public class LoginController {
     @GetMapping("/session")
     public ResponseEntity<SessionDto> session(HttpSession session){
 
+        log.info("session Call");
         UserDto userDto = (UserDto) session.getAttribute("id");
         return ResponseEntity.ok(new SessionDto(userDto));
     }

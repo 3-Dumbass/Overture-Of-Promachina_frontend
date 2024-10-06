@@ -11,16 +11,60 @@
     <header>
       <h1>나만의 포털 페이지</h1>
       <p>다양한 웹사이트로 쉽게 이동하세요!</p>
-      <ul class="user-info">
+      <ul id="user-info" class="user-info">
         <li><a href="/login-form" class="button">로그인</a></li>
         <li><a href="/betting-room" class="button">회원가입</a></li>
       </ul>
+
+      <script>
+        fetch('/session')
+                .then(response => response.json())
+                .then(SessionDto => {
+                  const session_data = SessionDto.user;
+
+                  if (session_data != null){
+                    // user-info 요소를 가져옵니다.
+                    const userInfo = document.getElementById("user-info");
+
+                    // 로그인/회원가입 버튼을 닉네임과 잔여 코인 정보로 바꿉니다.
+                    userInfo.innerHTML = `
+                      <li>
+                        <span>
+                          닉네임: ${session_data.nickname}
+                        </span>
+                      </li>
+                      <li>
+                        <span>
+                          잔여 코인: ${null}
+                        </span>
+                      </li>
+                        <span>
+                          잔여 칩: ${session_data.chip}
+                        </span>
+                      </li>
+                    `;
+                  }
+                  else{
+                    // user-info 요소를 가져옵니다.
+                    const userInfo = document.getElementById("user-info");
+
+                    // 로그인/회원가입 버튼으로 돌려놓습니다.
+                    userInfo.innerHTML = `
+                      <li><a href="/login-form" class="button">로그인</a></li>
+                      <li><a href="#" class="button">회원가입</a></li>
+                    `;
+                  }
+
+                });
+      </script>
+
     </header>
 
     <div class="container">
     </div>
 
     <footer>
+
       <p>
         문의: <a href="mailto:your.email@example.com">your.email@example.com</a>
       </p>
@@ -31,15 +75,6 @@
     </footer>
 
     <script src="js/main.js"></script>
-
-    <script>
-      fetch('/session')
-              .then(response => response.json())
-              .then(SessionDto => {
-                alert(SessionDto.user.user_id); // 서버에서 전달받은 username 출력
-              });
-    </script>
-
   </body>
 
 </html>
