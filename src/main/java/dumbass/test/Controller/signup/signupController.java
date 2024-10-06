@@ -83,16 +83,20 @@ public class signupController {
 
     public Boolean account_add(SignupDto signupDto){
 
-        String wallet_url = linkUrl.wallet_api + "/wallet/new";
+        String wallet_api = linkUrl.wallet_api + "/wallet/new";
+
+        log.info("wallet Call");
         RestTemplate restTemplate = new RestTemplate();
+        String test = restTemplate.getForObject(wallet_api, String.class);
 
-        String json_text = restTemplate.getForObject(wallet_url, String.class);
 
-        JSONObject obj = new JSONObject(json_text);
+        log.info("wallet Call Success");
 
-        String account_url = "http://localhost:8081/api/account/add";
-        AccountDto accountDto = new AccountDto(signupDto.getUser_id(), obj.getString("address"), obj.getString("passwd"));
-        Boolean result = restTemplate.postForEntity(account_url, accountDto, Boolean.class).getBody();
+        String account_api = "http://localhost:8081/api/account/add";
+        AccountDto accountDto = new AccountDto(signupDto.getUser_id(), null, null);
+        Boolean result = restTemplate.postForEntity(account_api, accountDto, Boolean.class).getBody();
+
+        log.info("account result: " + result);
 
         return result;
     }
