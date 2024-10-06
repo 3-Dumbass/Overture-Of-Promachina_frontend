@@ -2,7 +2,6 @@ package dumbass.test.Controller.signup;
 
 import com.fasterxml.jackson.databind.util.JSONPObject;
 import dumbass.test.Controller.signup.dto.SignupDto;
-import dumbass.test.utils.Utils;
 import dumbass.test.utils.dto.AccountDto;
 import dumbass.test.utils.dto.WalletDto;
 import dumbass.test.utils.linkUrl;
