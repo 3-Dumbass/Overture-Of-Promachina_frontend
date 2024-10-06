@@ -6,7 +6,8 @@ const sites = [
   {
     image: "images/site1.jpg",
     title: "사이트 1",
-    description: "사이트 1에 대한 간단한 설명입니다."
+    description: "사이트 1에 대한 간단한 설명입니다.",
+    link:"/betting-room"
   },
   {
     image: "images/site2.jpg",
@@ -21,6 +22,12 @@ const container = document.querySelector(".container");
 sites.forEach(site => {
   const siteBlock = document.createElement("div");
   siteBlock.classList.add("site-block");
+  if(site.link){
+    siteBlock.onclick = (event) => {
+      location.href = site.link;
+    };
+    siteBlock.style = "cursor: pointer";
+  }
 
   const image = document.createElement("img");
   image.src = site.image;
