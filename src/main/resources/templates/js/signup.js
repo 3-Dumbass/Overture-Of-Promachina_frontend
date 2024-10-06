@@ -3,7 +3,7 @@ const signupForm = document.getElementById("signup-form");
 signupForm.addEventListener("submit", (event) => {
   event.preventDefault(); // 기본 submit 동작 방지
 
-  const username = document.getElementById("username").value;
+  const loginId = document.getElementById("loginId").value;
   const nickname = document.getElementById("nickname").value;
   const password = document.getElementById("password").value;
   const passwordConfirm = document.getElementById("password-confirm").value;
