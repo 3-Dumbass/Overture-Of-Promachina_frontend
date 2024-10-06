@@ -1,8 +1,15 @@
 package dumbass.test.Controller.signup;
 
+import com.fasterxml.jackson.databind.util.JSONPObject;
 import dumbass.test.Controller.signup.dto.SignupDto;
 import dumbass.test.utils.Utils;
+import dumbass.test.utils.dto.AccountDto;
+import dumbass.test.utils.dto.WalletDto;
+import dumbass.test.utils.linkUrl;
 import lombok.extern.slf4j.Slf4j;
+import org.json.JSONObject;
+import org.springframework.beans.factory.annotation.Value;
+import org.springframework.boot.json.JsonParser;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -66,13 +73,28 @@ public class signupController {
         RestTemplate restTemplate = new RestTemplate();
         signupDto = restTemplate.postForEntity(url, signupDto, SignupDto.class).getBody();
 
-        Utils.account_add(signupDto);
-
-        if (true){
+        if (account_add(signupDto)){
             return "mainForm";
         }
         else{
             return "signupForm";
         }
     }
+
+    public Boolean account_add(SignupDto signupDto){
+
+        String wallet_url = linkUrl.wallet_api + "/wallet/new";
+        RestTemplate restTemplate = new RestTemplate();
+
+        String json_text = restTemplate.getForObject(wallet_url, String.class);
+
+        JSONObject obj = new JSONObject(json_text);
+
+        String account_url = "http://localhost:8081/api/account/add";
+        AccountDto accountDto = new AccountDto(signupDto.getUser_id(), obj.getString("address"), obj.getString("passwd"));
+        Boolean result = restTemplate.postForEntity(account_url, accountDto, Boolean.class).getBody();
+
+        return result;
+    }
+
 }
