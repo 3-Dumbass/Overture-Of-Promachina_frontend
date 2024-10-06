@@ -18,7 +18,7 @@ public class betRoomController {
     public String main_form(HttpSession session){
         UserDto userDto = (UserDto) session.getAttribute("id");
         if(userDto==null||userDto.getUser_id()==null){
-            return "loginForm";
+            return "redirect:/login-form";
         }
         log.info("betting room");
         return "betRoomForm";

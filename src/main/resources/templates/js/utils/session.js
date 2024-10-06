@@ -26,3 +26,9 @@ async function getUserId(){
     let json = await response.json();
     return json.user.user_id;
 }
+
+async function getRoomId(){
+    let response = await fetch('/session-room-id');
+    let json = await response.json();
+    return json.room_id;
+}

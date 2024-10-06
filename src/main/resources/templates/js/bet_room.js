@@ -12,6 +12,9 @@ const userCoinsDisplay = document.getElementById('user-coins');
 let users = []; // 배팅한 유저 정보 저장
 let totalBetAmount = 0; // 총 배팅 금액
 let userCoins = 0; // 유저 코인 잔액
+let ROOM_ID = -1;
+let USER_ID = -1;
+let client = null;
 
 // 벡엔드 API에서 유저 코인 가져오는 함수 (예시)
 function getUserCoins() {
@@ -127,8 +130,79 @@ function resetGame() {
   getUserCoins(); // 벡엔드에서 유저 코인 정보 갱신
 }
 
-// 초기화: 유저 코인 정보 가져오기
-getUserCoins();
+async function setUserInfo(){
+  try {
+    const url = `${API_URL}/api/v1/game-room/roomInfo`; // API URL
+    const data = {
+      "roomId": 1
+    };
 
-window.onload=function (){
+    const response = await fetch(url, {
+      method: 'POST', // HTTP 메서드
+      headers: {
+        'Accept': '*/*', // 응답 타입
+        'Content-Type': 'application/json' // 요청 본문의 데이터 타입
+      },
+      body: JSON.stringify(data) // 객체를 JSON 문자열로 변환
+    });
+
+    if (!response.ok) {
+      throw new Error(`HTTP error! status: ${response.status}`);
+    }
+
+    const json = await response.json(); // JSON 형식으로 응답 받기
+    return json.playerList;
+  } catch (error) {
+    console.error('Error creating game room:', error); // 에러 처리
+  }
 }
+
+function connectRoom(){
+  const socket= new SockJS(`${API_URL}/ws`);
+  const stompClient = StompJs.Stomp.over(socket);
+  stompClient.connect({}, function (frame) {
+    //구독
+    stompClient.subscribe(`/room/${ROOM_ID}`, function (chatMessage) {
+      console.log("=>",chatMessage.body);
+    });
+  });
+  return stompClient;
+}
+
+function joinGameRoom(){
+  const message={
+    userId: USER_ID,
+  }
+  sendMessage("join", ROOM_ID, message);
+}
+
+function sendMessage(type,roomId, message){
+  console.log("send")
+  client.send(`/send/${type}/${roomId}`, {}, JSON.stringify(message));
+}
+
+async function init(){
+  // 초기화: 유저 코인 정보 가져오기
+  getUserCoins();
+
+  ROOM_ID = await getRoomId();
+  Object.freeze(ROOM_ID);
+  console.log(`ROOM_ID:${ROOM_ID}`);
+
+  USER_ID = await getUserId();
+  Object.freeze(USER_ID);
+  console.log(`USER_ID:${USER_ID}`);
+
+
+  //초기 페이지 세팅
+  const users = await setUserInfo();
+  console.log(users);
+
+  //소켓 연결
+  client = connectRoom();
+
+  //방가입 알림
+  // joinGameRoom();
+}
+
+window.onload = init;
