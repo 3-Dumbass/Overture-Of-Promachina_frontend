@@ -1,6 +1,7 @@
 package dumbass.test.Controller.signup;
 
-import dumbass.test.dto.SignupDto;
+import dumbass.test.Controller.signup.dto.SignupDto;
+import dumbass.test.utils.Utils;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -25,7 +26,7 @@ public class signupController {
 
         log.info("loginId: " + loginId);
 
-        SignupDto signupDto = new SignupDto(null,null,null);
+        SignupDto signupDto = new SignupDto(null,null,null, null);
         signupDto.setLogin_id(loginId);
 
         String url = "http://localhost:8081/api/sign-up/login-id";
@@ -42,7 +43,7 @@ public class signupController {
 
         log.info("nickname: " + nickname);
 
-        SignupDto signupDto = new SignupDto(null,null,null);
+        SignupDto signupDto = new SignupDto(null,null,null, null);
         signupDto.setNickname(nickname);
 
         String url = "http://localhost:8081/api/sign-up/nickname";
@@ -63,9 +64,11 @@ public class signupController {
         log.info("signup_password: " + signupDto.getPassword());
 
         RestTemplate restTemplate = new RestTemplate();
-        Boolean result = restTemplate.postForEntity(url, signupDto, Boolean.class).getBody();
+        signupDto = restTemplate.postForEntity(url, signupDto, SignupDto.class).getBody();
 
-        if (result){
+        Utils.account_add(signupDto);
+
+        if (true){
             return "mainForm";
         }
         else{

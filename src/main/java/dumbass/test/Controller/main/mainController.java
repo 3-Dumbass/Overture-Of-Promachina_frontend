@@ -1,13 +1,10 @@
 package dumbass.test.Controller.main;
 
-import dumbass.test.Controller.login.dto.LoginDto;
-import dumbass.test.dto.UserDto;
+import dumbass.test.utils.dto.UserDto;
 import jakarta.servlet.http.HttpSession;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
-
-import java.util.Collections;
 
 @Slf4j
 @Controller

@@ -1,8 +1,8 @@
 package dumbass.test.Controller.login;
 
 import dumbass.test.Controller.login.dto.LoginDto;
-import dumbass.test.dto.SessionDto;
-import dumbass.test.dto.UserDto;
+import dumbass.test.utils.dto.SessionDto;
+import dumbass.test.utils.dto.UserDto;
 import jakarta.servlet.http.HttpSession;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.ResponseEntity;

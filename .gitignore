@@ -38,3 +38,4 @@ out/
 
 /src/main/resources/application.yml
 /src/main/resources/templates/setting/
+/src/main/java/dumbass/test/utils/linkUrl.java

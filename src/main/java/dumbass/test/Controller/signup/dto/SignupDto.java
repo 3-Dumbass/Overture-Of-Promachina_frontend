@@ -1,4 +1,4 @@
-package dumbass.test.dto;
+package dumbass.test.Controller.signup.dto;
 
 import lombok.*;
 
@@ -8,6 +8,7 @@ import lombok.*;
 @AllArgsConstructor
 public class SignupDto {
 
+    private Long user_id;
     private String nickname;
     private String login_id;
     private String password;

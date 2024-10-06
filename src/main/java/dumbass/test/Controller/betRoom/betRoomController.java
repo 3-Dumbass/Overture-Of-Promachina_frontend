@@ -1,14 +1,12 @@
 package dumbass.test.Controller.betRoom;
 
-import dumbass.test.dto.SessionDto;
-import dumbass.test.dto.UserDto;
+import dumbass.test.utils.dto.SessionDto;
+import dumbass.test.utils.dto.UserDto;
 import jakarta.servlet.http.HttpSession;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
 
 @Slf4j
 @Controller

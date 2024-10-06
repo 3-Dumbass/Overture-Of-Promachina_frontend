@@ -1,4 +1,4 @@
-package dumbass.test.dto;
+package dumbass.test.utils.dto;
 
 import lombok.AccessLevel;
 import lombok.Getter;
