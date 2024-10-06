@@ -28,7 +28,7 @@ public class signupController {
         SignupDto signupDto = new SignupDto(null,null,null);
         signupDto.setLogin_id(loginId);
 
-        String url = "http://localhost:8081/sign-up/login-id";
+        String url = "http://localhost:8081/api/sign-up/login-id";
         RestTemplate restTemplate = new RestTemplate();
         Boolean result = restTemplate.postForEntity(url, signupDto, Boolean.class).getBody();
 
@@ -45,7 +45,7 @@ public class signupController {
         SignupDto signupDto = new SignupDto(null,null,null);
         signupDto.setNickname(nickname);
 
-        String url = "http://localhost:8081/sign-up/nickname";
+        String url = "http://localhost:8081/api/sign-up/nickname";
         RestTemplate restTemplate = new RestTemplate();
         Boolean result = restTemplate.postForEntity(url, signupDto, Boolean.class).getBody();
 
@@ -56,7 +56,7 @@ public class signupController {
 
     @PostMapping("/signup")
     public String signup_check(SignupDto signupDto){
-        String url = "http://localhost:8081/sign-up/save";
+        String url = "http://localhost:8081/api/sign-up/save";
 
         log.info("signup_nickname: " + signupDto.getNickname());
         log.info("signup_loginId: " + signupDto.getLogin_id());

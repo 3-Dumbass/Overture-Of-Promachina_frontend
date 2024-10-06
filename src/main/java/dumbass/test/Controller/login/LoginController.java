@@ -33,22 +33,35 @@ public class LoginController {
         log.info("Login Password: " + loginDto.getPassword());
 
 
-        session.setAttribute("id", login_api(loginDto));
-        UserDto a = (UserDto) session.getAttribute("id");
+        UserDto user_data = login_api(loginDto);
+        if(user_data != null){
 
-        log.info("session: " + a);
+            user_data = user_api(user_data);
 
-        return "redirect:/main-form";
+            session.setAttribute("id", user_data);
+
+            return "redirect:/main-form";
+        }
+        else{
+            return "redirect:/login-form";
+        }
     }
 
 
     /** 로그인 api 연결부 */
     public UserDto login_api(LoginDto loginDto){
-        String url = "http://localhost:8081/login/login";
+        String url = "http://localhost:8081/api/login/login";
 
         RestTemplate restTemplate = new RestTemplate();
         UserDto userDto = restTemplate.postForEntity(url, loginDto, UserDto.class).getBody();
+
         return userDto;
+    }
+
+    public UserDto user_api(UserDto userDto){
+        String url = "http://localhost:8081/user/get";
+        RestTemplate restTemplate = new RestTemplate();
+
     }
 
 
