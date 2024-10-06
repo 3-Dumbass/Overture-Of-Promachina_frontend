@@ -78,9 +78,11 @@ betCompleteButton.addEventListener('click', () => {
 // 배팅 영역 업데이트 함수
 function updateBettingArea() {
   // 배팅 금액 기준으로 내림차순 정렬
-  users.sort((a, b) => b.betAmount - a.betAmount);
+  // users.sort((a, b) => b.betAmount - a.betAmount);
   bettingArea.innerHTML = ''; // 기존 배팅 정보 삭제
   users.forEach(user => {
+    const userElement = document.createElement('div');
+    userElement.classList.add('user-box');
     const userBetElement = document.createElement('div');
     userBetElement.classList.add('user-bet');
     // 이미지, 이름, 배팅 금액을 수평으로 배치
@@ -89,11 +91,12 @@ function updateBettingArea() {
       <span>${user.name}</span>
       <span>${user.betAmount} 코인</span>
     `;
-    bettingArea.appendChild(userBetElement);
+    userElement.appendChild(userBetElement);
     // 총액 정보 추가 (이미지, 이름, 배팅 금액과 동일한 길이로 만들기 위해 userBetElement 아래에 추가)
-    const totalCoinsSpan = document.createElement('span');
-    totalCoinsSpan.textContent = `총액: ${userCoins} 코인`;
-    bettingArea.appendChild(totalCoinsSpan);
+    const totalCoins = document.createElement('div');
+    totalCoins.textContent = `총액: ${user.totalCoin} 코인`;
+    userElement.appendChild(totalCoins);
+    bettingArea.appendChild(userElement);
   });
 }
 
@@ -121,7 +124,6 @@ loseButton.addEventListener('click', () => {
 
 // 게임 초기화 함수
 function resetGame() {
-  users = [];
   totalBetAmount = 0;
   updateBettingArea();
   resultPanel.style.display = 'none';
@@ -130,11 +132,35 @@ function resetGame() {
   getUserCoins(); // 벡엔드에서 유저 코인 정보 갱신
 }
 
-async function setUserInfo(){
+async function addUsers(userList){
+
+  userList.forEach((user)=>{
+    // 유저 정보 추가 (벡엔드에서 받아온 유저 정보 사용)
+    const newUser = {
+      id: user.userId,
+      icon: 'images/logo/로고(단색)(배경투명화).png', // 벡엔드에서 받아온 유저 아이콘
+      name: user.nickname, // 벡엔드에서 받아온 유저 이름
+      totalCoin: user.money,
+      betAmount: 0
+    };
+    users.push(newUser);
+  })
+
+  console.log(users);
+  updateBettingArea();
+}
+
+function leaveUser(userId){
+  users = users.filter(user => user.id !== userId);
+
+  updateBettingArea();
+}
+
+async function getAllUserInfo(){
   try {
     const url = `${API_URL}/api/v1/game-room/roomInfo`; // API URL
     const data = {
-      "roomId": 1
+      "roomId": ROOM_ID
     };
 
     const response = await fetch(url, {
@@ -157,27 +183,41 @@ async function setUserInfo(){
   }
 }
 
-function connectRoom(){
+let tmp = null;
+async function connectRoom(){
   const socket= new SockJS(`${API_URL}/ws`);
-  const stompClient = StompJs.Stomp.over(socket);
-  stompClient.connect({}, function (frame) {
-    //구독
-    stompClient.subscribe(`/room/${ROOM_ID}`, function (chatMessage) {
-      console.log("=>",chatMessage.body);
+  const stompClient = await StompJs.Stomp.over(socket);
+  return new Promise((resolve, reject) => {
+    stompClient.connect({}, (frame) => {
+      // 구독
+      stompClient.subscribe(`/room/${ROOM_ID}`, (chatMessage) => {
+        console.log("=>", chatMessage.body);
+        let response = JSON.parse(chatMessage.body);
+        const type = response.body.messageType;
+        const data = response.body.data;
+        if (type === "JOIN") {
+          addUsers([data]);
+        } else if (type === "LEAVE") {
+          leaveUser(data.userId);
+        }
+      });
+      resolve(stompClient); // 연결 및 구독이 완료되면 resolve
+    }, (error) => {
+      reject(error); // 연결 실패 시 reject
     });
   });
-  return stompClient;
 }
 
 function joinGameRoom(){
+  console.log("방 가입")
   const message={
-    userId: USER_ID,
+    "userId": USER_ID,
   }
   sendMessage("join", ROOM_ID, message);
 }
 
 function sendMessage(type,roomId, message){
-  console.log("send")
+  console.log(`/send/${type}/${roomId}`)
   client.send(`/send/${type}/${roomId}`, {}, JSON.stringify(message));
 }
 
@@ -195,14 +235,27 @@ async function init(){
 
 
   //초기 페이지 세팅
-  const users = await setUserInfo();
-  console.log(users);
+  const users = await getAllUserInfo();
+  await addUsers(users);
 
   //소켓 연결
-  client = connectRoom();
+  client = await connectRoom();
 
   //방가입 알림
-  // joinGameRoom();
+  joinGameRoom();
 }
 
 window.onload = init;
+window.onbeforeunload=()=>{
+  event.preventDefault(); // 필요할 경우
+  setTimeout(disconnect,0)
+}
+
+
+function disconnect(){
+  const message={
+    "userId": USER_ID,
+  }
+  sendMessage("leave", ROOM_ID, message);
+  client.disconnect();
+}

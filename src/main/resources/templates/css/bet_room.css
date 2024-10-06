@@ -99,3 +99,8 @@ footer {
   margin-top: 5px;
   display: block; /* 잔액을 다음 줄에 표시 */
 }
+
+.user-box{
+  border: 2px solid;
+  width: 100%;
+}
