@@ -62,6 +62,10 @@ function makeRoomObject(id, roomName){
   };
 }
 
+function joinRoom(roomId){
+  location.href = `/join/room/${roomId}`;
+}
+
 createRoomForm.addEventListener("submit", (event) => {
   event.preventDefault();
 
@@ -97,6 +101,7 @@ async function renderRoomList() {
     joinButton.addEventListener("click", () => {
       // 방 입장 처리 (예: 페이지 이동, 방 정보 전달)
       console.log(`${room.name} 방에 입장합니다!`);
+      joinRoom(room.id);
     });
 
     roomBox.appendChild(info);
