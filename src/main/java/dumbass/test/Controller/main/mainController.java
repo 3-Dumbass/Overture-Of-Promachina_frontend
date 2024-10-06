@@ -2,6 +2,7 @@ package dumbass.test.Controller.main;
 
 import dumbass.test.utils.dto.AccountDto;
 import dumbass.test.utils.dto.UserDto;
+import dumbass.test.utils.linkUrl;
 import jakarta.servlet.http.HttpSession;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Controller;
@@ -29,7 +30,7 @@ public class mainController {
 
 
     public Long coin_count(UserDto userDto){
-        String wallet_api = linkUrl.wallet_api_url + "/wallet/amount";
+        String wallet_api = linkUrl.wallet_api + "/wallet/amount";
 
         Long coin = 0L;
         for(AccountDto accountDto : userDto.getAccount()) {
