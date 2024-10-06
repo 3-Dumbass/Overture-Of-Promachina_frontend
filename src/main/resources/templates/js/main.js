@@ -7,7 +7,7 @@ const sites = [
     image: "images/site1.jpg",
     title: "사이트 1",
     description: "사이트 1에 대한 간단한 설명입니다.",
-    link:"/betting-room"
+    link:"/room-list"
   },
   {
     image: "images/site2.jpg",
